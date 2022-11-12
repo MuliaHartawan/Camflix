@@ -30,7 +30,7 @@ module.exports = {
       },
       deadday : {
         type : Sequelize.DATE,
-        allowNull : false
+        allowNull : true
       },
       rating : {
         type : Sequelize.TINYINT,

@@ -31,7 +31,7 @@ module.exports = async(req, res) => {
             return res.status(400).json({status : 'error', message : "invalid base64"});
         }
     
-        base64Img.img(image, './public/images', Date.now(), async (err, filepath) => {
+        base64Img.img(image, './public/images/movie', Date.now(), async (err, filepath) => {
         if(err){
           return res.status(400).json({ status : 'error', message : err.message });
         }

@@ -1,4 +1,4 @@
-const {Movies} = require('../../../models');
+const {Cast} = require('../../../models');
 const isBase64 = require('is-base64');
 const base64Img = require('base64-img');
 const Validator = require('fastest-validator');
@@ -12,8 +12,9 @@ module.exports = async(req, res) => {
 
     const schema = {
         name : 'string|empty:false',
-        status : 'enum:["ongoing","started","ended"]',
-        rating : 'number',
+        birthday : 'date',
+        deadday : 'optional',
+        rating : 'number'
     }
 
     const validate = v.validate(req.body, schema);
@@ -25,28 +26,13 @@ module.exports = async(req, res) => {
         });
     }
 
-    const id = req.params.id;
-    const movie = await Movies.findByPk(id);
-    if(!movie){
-        return res.status(404).json({
-            status : 'error',
-            message : 'movie not found'
-        });
-    }
-
     if(image.length){
 
         if (!isBase64(image, {mimeRequired: true})) {
             return res.status(400).json({status : 'error', message : "invalid base64"});
         }
-
-        fs.unlink(`./public/${movie.poster}`, async (err) => {
-            if(err){
-              return res.status(400).json({status : 'error', message : err.message});
-            }
-        });
     
-        base64Img.img(image, './public/images/movie', Date.now(), async (err, filepath) => {
+        base64Img.img(image, './public/images/cast', Date.now(), async (err, filepath) => {
         if(err){
           return res.status(400).json({ status : 'error', message : err.message });
         }
@@ -59,21 +45,18 @@ module.exports = async(req, res) => {
 
     data = {
         name : req.body.name,
-        poster : filename,
-        status : req.body.status,
-        rating : req.body.rating
+        avatar : filename,
+        birthday : new Date(req.body.birthday),
+        deadday : new Date(req.body.deadday) || null,
+        rating : req.body.deadday
     }
 
-    const updateMovie = await Movies.update(data);
+    const createMovie = await Cast.create(data);
 
     return res.json({
         status : 'success',
         data : {
-            id : updateMovie.id,
-            name : updateMovie.name,
-            poster : updateMovie.poster,
-            status: updateMovie.status,
-            rating : updateMovie.rating
+            id : createMovie.id
         }
     })
 }

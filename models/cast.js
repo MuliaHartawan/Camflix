@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         deadday : {
             type : DataTypes.DATE,
-            allowNull : false
+            allowNull : true
         },
         rating : {
             type : DataTypes.TINYINT,
