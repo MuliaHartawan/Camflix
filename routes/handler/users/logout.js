@@ -1,5 +1,7 @@
 const { User, RefreshTokens } = require('../../../models');
 
+const jwt = require('jsonwebtoken')
+
 module.exports = async(req, res) => {
     const userId = req.body.user_id;
     const user = await User.findByPk(userId);
