@@ -8,11 +8,14 @@ module.exports = async(req, res) => {
     
     const image = req.body.image || [] ;
 
-    let filename
+    let filename;
 
     const schema = {
         name : 'string|empty:false',
-        status : 'enum:["ongoing","started","ended"]',
+        status :  { 
+            type : "enum",
+            values : ["ongoing","started","ended"]
+        },
         rating : 'number',
     }
 
@@ -21,7 +24,11 @@ module.exports = async(req, res) => {
     if(validate.length) {
         return res.status(400).json({
             status : 'error',
-            message : validate
+            message : validate.map(v => {
+                return {
+                  message: v.message
+                }
+            })
         });
     }
 
@@ -35,16 +42,16 @@ module.exports = async(req, res) => {
         if(err){
           return res.status(400).json({ status : 'error', message : err.message });
         }
-    
+        
         filename = filepath.split("\\").pop().split("/").pop();
-    
+
         });
     
     }
 
     data = {
         name : req.body.name,
-        poster : filename,
+        poster : '/images/movie/' + filename,
         status : req.body.status,
         rating : req.body.rating
     }

@@ -13,6 +13,8 @@ module.exports = async(req, res) => {
             message : 'movie not found'
         });
     }
+    
+    movie.poster = `${req.get('host')}/${movie.poster}`
 
     return res.json({
         status : 'success',

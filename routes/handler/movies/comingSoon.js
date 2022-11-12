@@ -1,18 +1,21 @@
 const {Movies} = require('../../../models');
+const { Op } = require('sequelize'); 
 
 module.exports = async(req, res) => {
     
-    const search = req.query.name || [];
+    const search = req.params.search || [];
 
     const sqlOptions = {
-        attributes : ['id', 'name', 'poster', 'status', 'rating']
+        attributes : ['id', 'name', 'poster', 'status', 'rating'],
+        where : {
+            status : 'ongoing'
+        }
     }
 
     if(search.length){
         sqlOptions.where = {
-            status : 'ongoing',
             name : {
-                $like : `%${search}%`
+                [Op.like]: `%${search}%`
             }
         }
     }

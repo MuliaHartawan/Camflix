@@ -7,9 +7,9 @@ const v = new Validator;
 
 module.exports = async (req, res) => {
 
-    const image = req.body.image || [] ;
+    const image = req.body.image || [];
 
-    let filename
+    let filename;
 
     const schema = {
         name : 'string|empty:false',
@@ -42,8 +42,6 @@ module.exports = async (req, res) => {
         if (!isBase64(image, {mimeRequired: true})) {
             return res.status(400).json({status : 'error', message : "invalid base64"});
         }
-
-        console.log("masuk");
     
         base64Img.img(image, './public/images/users', Date.now(), async (err, filepath) => {
         if(err){
