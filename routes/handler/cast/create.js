@@ -2,6 +2,7 @@ const {Cast} = require('../../../models');
 const isBase64 = require('is-base64');
 const base64Img = require('base64-img');
 const Validator = require('fastest-validator');
+const moment = require('moment');
 const v = new Validator;
 
 module.exports = async(req, res) => {
@@ -12,8 +13,8 @@ module.exports = async(req, res) => {
 
     const schema = {
         name : 'string|empty:false',
-        birthday : 'date',
-        deadday : 'optional',
+        birthday : 'string',
+        deadday : 'string|optional',
         rating : 'number'
     }
 
@@ -45,9 +46,9 @@ module.exports = async(req, res) => {
 
     data = {
         name : req.body.name,
-        avatar : filename,
-        birthday : new Date(req.body.birthday),
-        deadday : new Date(req.body.deadday) || null,
+        avatar : '/images/cast/' + filename,
+        birthday : moment(req.body.birthday).format('DD-MM-YYYY'),
+        deadday : moment(req.body.deadday).format('DD-MM-YYYY') || null,
         rating : req.body.deadday
     }
 

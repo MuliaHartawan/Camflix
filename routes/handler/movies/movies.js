@@ -17,10 +17,12 @@ module.exports = async(req, res) => {
         }
     }
     
-    const user = await Movies.findAll(sqlOptions);
+    const movie = await Movies.findAll(sqlOptions);
 
     return res.json({
         status : 'success',
-        data : user
+        data : movie.map(v => {
+            return { id : v.id, name : v.name, poster : v.poster ? `${req.get('host')}${v.poster}` : null, status : v.status, rating : v.rating}
+        })
     })
 }

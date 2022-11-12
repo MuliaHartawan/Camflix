@@ -18,8 +18,12 @@ module.exports = async(req, res) => {
     
     const cast = await Cast.findAll(sqlOptions);
 
+    
+
     return res.json({
         status : 'success',
-        data : cast
+        data : cast.map(v => {
+            return { id : v.id, name : v.name, avatar :  `${req.get('host')}${v.avatar}`, birthday : v.birthday, deadday : v.deadday}
+        })
     })
 }
