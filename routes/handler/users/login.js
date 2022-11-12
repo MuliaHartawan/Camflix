@@ -25,6 +25,7 @@ module.exports = async(req, res) => {
     }
 
     const user = await User.findOne({
+        attributes : ['id', 'name', 'avatar', 'email'],
         where : {email: req.body.email}
     })
 

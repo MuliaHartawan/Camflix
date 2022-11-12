@@ -3,6 +3,7 @@ const isBase64 = require('is-base64');
 const base64Img = require('base64-img');
 const Validator = require('fastest-validator');
 const v = new Validator;
+const fs = require('fs');
 
 module.exports = async(req, res) => {
     

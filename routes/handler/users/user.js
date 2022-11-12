@@ -2,18 +2,7 @@ const {User} = require('../../../models');
 
 module.exports = async(req, res) => {
 
-    const id = req.user.id
-
-    const user = await User.findByPk(id, {
-        attributes : ['id', 'name', 'email', 'avatar']
-    });
-
-    if(!user){
-        return res.status(404).json({
-            status : 'error',
-            message : 'user not found'
-        });
-    }
+    const user = req.user
 
     return res.json({
         status : 'success',

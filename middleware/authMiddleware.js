@@ -4,7 +4,7 @@ const {JWT_SECRET_KEY} = process.env;
 
 module.exports = async(req, res, next) => {
 
-    const tokenHeader = req.headers.authorization;
+    const tokenHeader = req.headers.authorization || 'empty empty';
     if (tokenHeader.split(' ')[0] !== 'Bearer') {
         return res.status(500).send({
             message: "Error",

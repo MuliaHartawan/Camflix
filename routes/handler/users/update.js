@@ -1,9 +1,17 @@
 const bcrypt = require('bcrypt');
 const {User} = require('../../../models');
+const isBase64 = require('is-base64');
+const base64Img = require('base64-img');
 const Validator = require('fastest-validator');
 const v = new Validator;
+const fs = require('fs');
 
 module.exports = async (req, res) => {
+
+    const image = req.body.image || [] ;
+
+    let filename
+
     const schema = {
         name : 'string|empty:false',
         email : 'email|empty:false',
@@ -20,8 +28,8 @@ module.exports = async (req, res) => {
         });
     }
 
-    const id = req.params.id;
-    const user = await User.findByPk(id);
+    const id = req.user;
+    const user = await User.findByPk(id.user.id);
     if(!user){
         return res.status(404).json({
             status : 'error',
@@ -43,25 +51,49 @@ module.exports = async (req, res) => {
         }
     }
 
-    const password = await bcrypt.hash(req.body.password, 10);
-    const {
-        name, profession, avatar
-    } = req.body;
+    if(image.length){
 
-    await user.update({
-        name,
-        email,
-        password,
-        avatar
-    });
+        if (!isBase64(image, {mimeRequired: true})) {
+            return res.status(400).json({status : 'error', message : "invalid base64"});
+        }
+
+        if (user.avatar) {
+            fs.unlink(`./public/${user.avatar}`, async (err) => {
+                if(err){
+                  return res.status(400).json({status : 'error', message : err.message});
+                }
+            });
+        }
+    
+        base64Img.img(image, './public/images/users', Date.now(), async (err, filepath) => {
+        if(err){
+          return res.status(400).json({ status : 'error', message : err.message });
+        }
+    
+        filename = filepath.split("\\").pop().split("/").pop();
+    
+        });
+    
+    }
+
+    const password = await bcrypt.hash(req.body.password, 10);
+
+    data =  {
+        name : req.body.name, 
+        avatar : 'images/users/' + filename,
+        email : req.body.email,
+        password : password
+    }
+
+    await user.update(data);
 
     return res.json({
         status : 'success',
         data : {
             id : user.id,
-            name,
-            email,
-            avatar
+            name : user.name,
+            email : user.email,
+            avatar : `${req.get('host')}/${user.avatar}`
         }
     });
 }
