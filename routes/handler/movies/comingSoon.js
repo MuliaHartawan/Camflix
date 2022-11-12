@@ -3,7 +3,7 @@ const { Op } = require('sequelize');
 
 module.exports = async(req, res) => {
     
-    const search = req.params.search || [];
+    const search = req.query.search;
 
     const sqlOptions = {
         attributes : ['id', 'name', 'poster', 'status', 'rating'],
@@ -12,7 +12,7 @@ module.exports = async(req, res) => {
         }
     }
 
-    if(search.length){
+    if(search){
         sqlOptions.where = {
             name : {
                 [Op.like]: `%${search}%`

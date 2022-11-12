@@ -9,11 +9,14 @@ module.exports = async(req, res) => {
     
     const image = req.body.image || [] ;
 
-    let filename
+    let filename;
 
     const schema = {
         name : 'string|empty:false',
-        status : 'enum:["ongoing","started","ended"]',
+        status :  { 
+            type : "enum",
+            values : ["ongoing","started","ended"]
+        },
         rating : 'number',
     }
 
@@ -60,19 +63,19 @@ module.exports = async(req, res) => {
 
     data = {
         name : req.body.name,
-        poster : filename,
+        poster : '/images/movie/' + filename,
         status : req.body.status,
         rating : req.body.rating
     }
 
-    const updateMovie = await Movies.update(data);
+    const updateMovie = await movie.update(data, );
 
     return res.json({
         status : 'success',
         data : {
             id : updateMovie.id,
             name : updateMovie.name,
-            poster : updateMovie.poster,
+            poster : `${req.get('host')}/${updateMovie.poster}`,
             status: updateMovie.status,
             rating : updateMovie.rating
         }
