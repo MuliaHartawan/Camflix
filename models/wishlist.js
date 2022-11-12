@@ -10,6 +10,10 @@ module.exports = (sequelize, DataTypes) => {
             type : DataTypes.BOOLEAN,
             allowNull : false
         },
+        movie_id : {
+            type : DataTypes.INTEGER,
+            allowNull : false
+        },
         user_id : {
             type : DataTypes.INTEGER,
             allowNull : false

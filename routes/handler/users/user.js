@@ -1,7 +1,8 @@
 const {User} = require('../../../models');
 
 module.exports = async(req, res) => {
-    const id = req.params.id;
+
+    const id = req.user.id
 
     const user = await User.findByPk(id, {
         attributes : ['id', 'name', 'email', 'avatar']

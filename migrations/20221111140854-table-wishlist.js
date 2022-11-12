@@ -20,6 +20,10 @@ module.exports = {
         type : Sequelize.BOOLEAN,
         allowNull : false
       },
+      movie_id : {
+        type : Sequelize.BOOLEAN,
+        allowNull : false
+      },
       user_id : {
         type : Sequelize.INTEGER,
         allowNull : false
