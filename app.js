@@ -8,13 +8,13 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const moviesRouter = require('./routes/movies');
 const castRouter = require('./routes/cast');
-const wishlistRouter = requier('./routes/wishlist')
+const wishlistRouter = require('./routes/wishlist')
 
 const app = express();
 
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({limit:'50mb'}));
+app.use(express.urlencoded({ extended: false, limit:'50mb' }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 

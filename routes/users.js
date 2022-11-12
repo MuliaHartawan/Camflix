@@ -3,10 +3,12 @@ const router = express.Router();
 
 const usersHandler = require('./handler/users')
 
+const verifyToken = require('../middleware/authMiddleware');
+
 router.post('/register', usersHandler.register);
 router.post('/login', usersHandler.login);
-router.post('/logout', usersHandler.logout);
-router.put('/:id', usersHandler.update);
-router.get('/:id', usersHandler.user);
+router.post('/logout', verifyToken, usersHandler.logout);
+router.put('/:id', verifyToken, usersHandler.update);
+router.get('/', verifyToken, usersHandler.user);
 
 module.exports = router;

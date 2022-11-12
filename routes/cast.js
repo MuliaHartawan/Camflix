@@ -3,10 +3,12 @@ const router = express.Router();
 
 const castHandler = require('./handler/cast')
 
+const verifyToken = require('../middleware/authMiddleware');
+
 router.get('/', castHandler.casts);
-router.post('/', castHandler.create);
-router.put('/:id', castHandler.update);
+router.post('/', verifyToken, castHandler.create);
+router.put('/:id', verifyToken, castHandler.update);
 router.get('/:id', castHandler.cast);
-router.delete('/:id', castHandler.destroy);
+router.delete('/:id', verifyToken, castHandler.destroy);
 
 module.exports = router;

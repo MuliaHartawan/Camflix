@@ -3,7 +3,9 @@ const router = express.Router();
 
 const wishlistHandler = require('./handler/wishlist')
 
-router.get('/', wishlistHandler.wishlist);
-router.delete('/:id', wishlistHandler.destroy);
+const verifyToken = require('../middleware/authMiddleware');
+
+router.get('/',  verifyToken, wishlistHandler.wishlist);
+router.delete('/:id', verifyToken, wishlistHandler.destroy);
 
 module.exports = router;
