@@ -2,13 +2,15 @@ const {Wishlist} = require('../../../models');
 
 module.exports = async(req, res) => {
 
-    const id = req.user.id
+    const id = req.user.user.id
+
+    console.log(id);
 
     const wishlist = await Wishlist.findAll({
         where : {
             user_id : id
         },
-        attributes : ['id', 'like', 'user_id']
+        attributes : ['id', 'like', 'movie_id', 'user_id']
     });
 
     if(!wishlist){
@@ -19,7 +21,7 @@ module.exports = async(req, res) => {
     }
 
     return res.json({
-        status : 'success',
+        status : 'success', 
         data : wishlist
     })
 }

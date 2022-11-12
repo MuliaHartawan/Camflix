@@ -12,7 +12,7 @@ module.exports = async(req, res) => {
         });
     }
 
-    await cast.destroy();
+    await wishlist.destroy();
 
     return res.json({
         status : 'success',

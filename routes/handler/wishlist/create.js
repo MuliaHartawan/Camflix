@@ -17,8 +17,10 @@ module.exports = async(req, res) => {
             message : validate
         });
     }
+    
+    const id_movie = req.body.movie_id
 
-    const movie = await Movies.findByPk(movie_id);
+    const movie = await Movies.findByPk(id_movie);
 
     if(!movie){
         return res.status(404).json({
@@ -28,11 +30,13 @@ module.exports = async(req, res) => {
     }
 
     data = {
-        like,
-        user_id : req.user.id,
-        movie_id
+        like : req.body.like,
+        user_id : req.user.user.id,
+        movie_id : req.body.movie_id
     }
     
+    console.log(data);
+
     const createWishlist = await Wishlist.create(data);
 
     return res.json({
