@@ -93,7 +93,7 @@ module.exports = async (req, res) => {
             id : user.id,
             name : user.name,
             email : user.email,
-            avatar : `${req.get('host')}/${user.avatar}`
+            avatar : `${req.headers.host}/${user.avatar}`
         }
     });
 }

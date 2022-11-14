@@ -9,7 +9,9 @@ module.exports = async(req, res) => {
     
     const image = req.body.image || [] ;
 
-    let filename;
+    let filename = Date.now();
+
+    let nameExtension;
 
     const schema = {
         name : 'string|empty:false',
@@ -44,18 +46,20 @@ module.exports = async(req, res) => {
             return res.status(400).json({status : 'error', message : "invalid base64"});
         }
 
+        nameExtension = image.split('/')[1].split(';')[0];
+
+        nameExtension == 'jpeg' ? nameExtension = 'jpg' : nameExtension
+
         fs.unlink(`./public/${movie.poster}`, async (err) => {
             if(err){
               return res.status(400).json({status : 'error', message : err.message});
             }
         });
-    
-        base64Img.img(image, './public/images/movie', Date.now(), async (err, filepath) => {
+
+        base64Img.img(image, './public/images/movie', filename, async (err, filepath) => {
         if(err){
           return res.status(400).json({ status : 'error', message : err.message });
         }
-    
-        filename = filepath.split("\\").pop().split("/").pop();
     
         });
     
@@ -63,7 +67,7 @@ module.exports = async(req, res) => {
 
     data = {
         name : req.body.name,
-        poster : '/images/movie/' + filename,
+        poster : '/images/movie/' + filename + '.' + nameExtension,
         status : req.body.status,
         rating : req.body.rating
     }
@@ -75,7 +79,7 @@ module.exports = async(req, res) => {
         data : {
             id : updateMovie.id,
             name : updateMovie.name,
-            poster : `${req.get('host')}/${updateMovie.poster}`,
+            poster : `${req.headers.host}${updateMovie.poster}`,
             status: updateMovie.status,
             rating : updateMovie.rating
         }

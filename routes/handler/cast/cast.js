@@ -14,7 +14,7 @@ module.exports = async(req, res) => {
         });
     }
 
-    cast.avatar = `${req.get('host')}${cast.avatar}`
+    cast.avatar = `${req.headers.host}${cast.avatar}`
 
     return res.json({
         status : 'success',

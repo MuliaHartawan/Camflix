@@ -7,8 +7,10 @@ const v = new Validator;
 module.exports = async(req, res) => {
     
     const image = req.body.image || [] ;
+    
+    let filename = Date.now();
 
-    let filename;
+    let nameExtension;
 
     const schema = {
         name : 'string|empty:false',
@@ -37,25 +39,27 @@ module.exports = async(req, res) => {
         if (!isBase64(image, {mimeRequired: true})) {
             return res.status(400).json({status : 'error', message : "invalid base64"});
         }
-    
-        base64Img.img(image, './public/images/movie', Date.now(), async (err, filepath) => {
+
+        nameExtension = image.split('/')[1].split(';')[0];
+
+        nameExtension == 'jpeg' ? nameExtension = 'jpg' : nameExtension
+        
+        base64Img.img(image, './public/images/movie', filename, async (err, filepath) => {
         if(err){
           return res.status(400).json({ status : 'error', message : err.message });
         }
-        
-        filename = filepath.split("\\").pop().split("/").pop();
-
-        });
     
-    }
+    });
+    
+    }   
 
     data = {
         name : req.body.name,
-        poster : '/images/movie/' + filename,
+        poster : '/images/movie/' + filename + '.' + nameExtension,
         status : req.body.status,
         rating : req.body.rating
     }
-
+    
     const createMovie = await Movies.create(data);
 
     return res.json({

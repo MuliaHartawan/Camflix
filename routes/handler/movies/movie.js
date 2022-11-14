@@ -14,7 +14,7 @@ module.exports = async(req, res) => {
         });
     }
     
-    movie.poster = `${req.get('host')}/${movie.poster}`
+    movie.poster = `${req.headers.host}/${movie.poster}`
 
     return res.json({
         status : 'success',

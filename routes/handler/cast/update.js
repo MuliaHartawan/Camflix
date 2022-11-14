@@ -10,7 +10,9 @@ module.exports = async(req, res) => {
     
     const image = req.body.image || [] ;
 
-    let filename
+    let filename = Date.now();
+
+    let nameExtension;
 
     const schema = {
         name : 'string|empty:false',
@@ -43,18 +45,20 @@ module.exports = async(req, res) => {
             return res.status(400).json({status : 'error', message : "invalid base64"});
         }
 
-        fs.unlink(`./public/${cast.poster}`, async (err) => {
+        nameExtension = image.split('/')[1].split(';')[0];
+
+        nameExtension == 'jpeg' ? nameExtension = 'jpg' : nameExtension
+
+        fs.unlink(`./public/${cast.avatar}`, async (err) => {
             if(err){
               return res.status(400).json({status : 'error', message : err.message});
             }
         });
     
-        base64Img.img(image, './public/images/cast', Date.now(), async (err, filepath) => {
+        base64Img.img(image, './public/images/cast', filename, async (err, filepath) => {
         if(err){
           return res.status(400).json({ status : 'error', message : err.message });
         }
-    
-        filename = filepath.split("\\").pop().split("/").pop();
     
         });
     
@@ -62,7 +66,7 @@ module.exports = async(req, res) => {
 
     data = {
         name : req.body.name,
-        avatar : '/images/cast/' + filename,
+        avatar : '/images/cast/' + filename + '.' + nameExtension,
         birthday : moment(req.body.birthday).format('DD-MM-YYYY'),
         deadday : moment(req.body.deadday).format('DD-MM-YYYY') || null,
         rating : req.body.deadday
@@ -75,7 +79,7 @@ module.exports = async(req, res) => {
         data : {
             id : updateCast.id,
             name : updateCast.name,
-            avatar : `${req.get('host')}/${updateMovie.avatar}`,
+            avatar : `${req.headers.host}${updateCast.avatar}`,
             birthday: updateCast.birthday,
             deadday: updateCast.deadday,
             rating : updateCast.rating

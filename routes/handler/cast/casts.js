@@ -23,7 +23,7 @@ module.exports = async(req, res) => {
     return res.json({
         status : 'success',
         data : cast.map(v => {
-            return { id : v.id, name : v.name, avatar :  `${req.get('host')}${v.avatar}`, birthday : v.birthday, deadday : v.deadday}
+            return { id : v.id, name : v.name, avatar :  `${req.headers.host}${v.avatar}`, birthday : v.birthday, deadday : v.deadday}
         })
     })
 }

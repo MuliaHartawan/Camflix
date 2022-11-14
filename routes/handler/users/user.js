@@ -4,7 +4,7 @@ module.exports = async(req, res) => {
 
     const user = req.user
 
-    user.avatar = `${req.get('host')}/${user.avatar}`
+    user.avatar = `${req.headers.host}/${user.avatar}`
 
     return res.json({
         status : 'success',

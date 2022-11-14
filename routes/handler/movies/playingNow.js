@@ -25,7 +25,7 @@ module.exports = async(req, res) => {
     return res.json({
         status : 'success',
         data : movie.map(v => {
-            return { id : v.id, name : v.name, poster : v.poster ? `${req.get('host')}${v.poster}` : null, status : v.status, rating : v.rating}
+            return { id : v.id, name : v.name, poster : v.poster ? `${req.headers.host}${v.poster}` : null, status : v.status, rating : v.rating}
         })
     })
 }
