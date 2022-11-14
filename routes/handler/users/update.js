@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
     }
 
     const id = req.user;
-    const user = await User.findByPk(id.user.id);
+    const user = await User.findByPk(id.id);
     if(!user){
         return res.status(404).json({
             status : 'error',
@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
             where : {email: req.body.email}
         });
 
-        if (checkEmail && email !== user.email){
+        if (checkEmail && email === user.email){
             return res.status(409).json({
                 status : 'error',
                 message : 'Email already exist'

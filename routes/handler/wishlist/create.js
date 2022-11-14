@@ -31,11 +31,10 @@ module.exports = async(req, res) => {
 
     data = {
         like : req.body.like,
-        user_id : req.user.user.id,
+        user_id : req.user.id,
         movie_id : req.body.movie_id
     }
     
-    console.log(data);
 
     const createWishlist = await Wishlist.create(data);
 

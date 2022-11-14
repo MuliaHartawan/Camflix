@@ -18,7 +18,7 @@ module.exports = async(req, res, next) => {
         if(err) {
             return res.status(403).json({status : 'error', message : err});
         }
-        req.user = decoded.user;
+        req.user = decoded.data;
         return next();
     });
 }
