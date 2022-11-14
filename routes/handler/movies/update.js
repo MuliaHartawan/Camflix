@@ -72,7 +72,7 @@ module.exports = async(req, res) => {
         rating : req.body.rating
     }
 
-    const updateMovie = await movie.update(data, );
+    const updateMovie = await movie.update(data);
 
     return res.json({
         status : 'success',

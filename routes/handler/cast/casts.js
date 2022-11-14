@@ -2,7 +2,7 @@ const {Cast} = require('../../../models');
 
 module.exports = async(req, res) => {
     
-    const search = req.query.name || [];
+    const search = req.query.search || [];
 
     const sqlOptions = {
         attributes : ['id', 'name', 'avatar', 'birthday', 'deadday']

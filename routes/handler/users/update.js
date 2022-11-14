@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
             message : 'user not found'
         });
     }
-
+    
     const email = req.body.email;
     if(email){
         const checkEmail = await User.findOne({
@@ -85,15 +85,15 @@ module.exports = async (req, res) => {
         password : password
     }
 
-    await user.update(data);
+    const updateUser = await user.save(data);
 
     return res.json({
         status : 'success',
         data : {
-            id : user.id,
-            name : user.name,
-            email : user.email,
-            avatar : `${req.headers.host}/${user.avatar}`
+            id : updateUser.id,
+            name : updateUser.name,
+            email : updateUser.email,
+            avatar : `${req.headers.host}/${updateUser.avatar}`
         }
     });
 }

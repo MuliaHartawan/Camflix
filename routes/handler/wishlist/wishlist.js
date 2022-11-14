@@ -12,7 +12,6 @@ module.exports = async(req, res) => {
         attributes : ['id', 'like', 'movie_id', 'user_id']
     });
     
-    console.log(wishlist.length);
     if(wishlist.length == 0){
         return res.status(404).json({
             status : 'error',
