@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "test": "jest",
     "start": "node ./bin/www",
     "start-dev": "nodemon ./bin/www"
   },
@@ -22,5 +23,8 @@
     "nodemon": "^2.0.20",
     "sequelize": "^6.25.5",
     "sequelize-cli": "^6.5.2"
+  },
+  "devDependencies": {
+    "jest": "^29.3.1"
   }
 }

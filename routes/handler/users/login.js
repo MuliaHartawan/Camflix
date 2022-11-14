@@ -40,20 +40,22 @@ module.exports = async(req, res) => {
     if (!isValidPassword){
         return res.status(404).json({
             'status' : 'error',
-            'message' : 'user not found'
+            'message' : 'credentials invalid username or password'
         });
     }
 
-    const token = jwt.sign({user}, JWT_SECRET_KEY, {expiresIn : JWT_ACCESS_TOKEN_EXPIRED});
+    data = {
+        id : user.id,
+        name : user.name,
+        email : user.email,
+        avatar : user.avatar,
+    }
 
-    res.json({
+    const token = jwt.sign({data}, JWT_SECRET_KEY, {expiresIn : JWT_ACCESS_TOKEN_EXPIRED});
+
+    return res.json({
         status : 'success',
-        data : {
-            id : user.id,
-            name : user.name,
-            email : user.email,
-            avatar : user.avatar,
-        },
+        data,
         token
     })
 }

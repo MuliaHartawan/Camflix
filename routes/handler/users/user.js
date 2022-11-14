@@ -2,7 +2,7 @@ const {User} = require('../../../models');
 
 module.exports = async(req, res) => {
 
-    const user = req.user.user
+    const user = req.user
 
     user.avatar = `${req.get('host')}/${user.avatar}`
 
