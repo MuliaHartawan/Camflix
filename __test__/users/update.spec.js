@@ -39,7 +39,7 @@ jest.mock('../../models', () => ({
                 ));
             return user;
         }),
-        save: jest.fn(() => {
+        update: jest.fn(() => {
             const users = [{
                 "id": 2,
                 "name" : "adminganteng",

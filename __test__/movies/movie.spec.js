@@ -13,8 +13,29 @@ jest.mock('../../models', () => ({
                 "id": 1,
                 "name": "Harry Porter",
                 "poster": null,
+                "status" : 'started',
+                "rating" : 5,
+                "cast" : [{
+                    "id": 1,
+                    "name": "Angeli Khang",
+                    "avatar": null,
+                    "birthday" : Date.now(),
+                    "deadday" : 5,
+                }]
+            },
+            {
+                "id": 2,
+                "name": "Laskar pelangi",
+                "poster": null,
                 "status" : 'ongoing',
                 "rating" : 5,
+                "cast" : [{
+                    "id": 2,
+                    "name": "Raisa",
+                    "avatar": null,
+                    "birthday" : Date.now(),
+                    "deadday" : 5,
+                }]
             }];
             const movie = movies.find((it) => (
                 it.id === params

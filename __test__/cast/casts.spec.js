@@ -15,6 +15,13 @@ jest.mock('../../models', () => ({
                 "avatar": null,
                 "birthday" : Date.now(),
                 "deadday" : 5,
+                "movies" : [{
+                    "id": 1,
+                    "name": "Harry Porter",
+                    "poster": null,
+                    "status" : 'ongoing',
+                    "rating" : 5,
+                }]
             },
             {
                 "id": 2,
@@ -22,6 +29,13 @@ jest.mock('../../models', () => ({
                 "avatar": null,
                 "birthday" : Date.now(),
                 "deadday" : "",
+                "movies" : [{
+                    "id": 2,
+                    "name": "Laskar Pelangi",
+                    "poster": null,
+                    "status" : 'ongoing',
+                    "rating" : 5,
+                }]
             }];
     
             return casts;
