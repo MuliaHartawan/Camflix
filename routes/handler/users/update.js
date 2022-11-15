@@ -5,6 +5,7 @@ const base64Img = require('base64-img');
 const Validator = require('fastest-validator');
 const v = new Validator;
 const fs = require('fs');
+const { where } = require('sequelize');
 
 module.exports = async (req, res) => {
 
@@ -28,8 +29,8 @@ module.exports = async (req, res) => {
         });
     }
 
-    const id = req.user;
-    const user = await User.findByPk(id.id);
+    const { id } = req.user;
+    const user = await User.findByPk(id);
     if(!user){
         return res.status(404).json({
             status : 'error',
@@ -80,20 +81,20 @@ module.exports = async (req, res) => {
 
     data =  {
         name : req.body.name, 
-        avatar : 'images/users/' + filename,
+        avatar : filename ? 'images/users/' + filename : null,
         email : req.body.email,
         password : password
     }
 
-    const updateUser = await user.save(data);
+    await User.update(data, {where : { id }});
 
     return res.json({
         status : 'success',
         data : {
-            id : updateUser.id,
-            name : updateUser.name,
-            email : updateUser.email,
-            avatar : `${req.headers.host}/${updateUser.avatar}`
+            id : user.id,
+            name : data.name,
+            email : data.email,
+            avatar : data.avatar ? `${req.headers.host}/${data.avatar}` : null
         }
     });
 }

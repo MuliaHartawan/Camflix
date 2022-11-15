@@ -1,4 +1,4 @@
-const {Movies} = require('../../../models');
+const {Movies, Cast} = require('../../../models');
 const isBase64 = require('is-base64');
 const base64Img = require('base64-img');
 const Validator = require('fastest-validator');
@@ -60,8 +60,18 @@ module.exports = async(req, res) => {
         rating : req.body.rating
     }
     
+    
+    const cast = await Cast.findByPk(req.body.cast_id)
+
+    
+    if(!cast){
+        return res.status(404).json({ status : 'error', message : 'cast not found' });
+    }
+
     const createMovie = await Movies.create(data);
 
+    cast.addMovies(createMovie)
+    
     return res.json({
         status : 'success',
         data : {
